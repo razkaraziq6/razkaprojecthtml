@@ -3,105 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
+    <title>Upload File</title>
     <style>
-        /* Gaya Umum */
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6e7f80, #abb8b9);
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
         }
 
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            width: 350px;
+        .upload-container {
             text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 300px;
         }
 
         input[type="file"] {
-            border: 1px solid #ccc;
-            padding: 10px;
             margin-bottom: 20px;
-            width: 100%;
-            border-radius: 5px;
-            font-size: 14px;
         }
 
         button {
+            padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 12px 20px;
-            width: 100%;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
 
         button:hover {
             background-color: #45a049;
         }
 
-        #file-url, .error-message {
+        #file-url {
             margin-top: 20px;
-            font-size: 14px;
-            color: #333;
             word-wrap: break-word;
-        }
-
-        .error-message {
-            color: #d9534f;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Upload File</h2>
-        <input type="file" id="fileInput" />
-        <button onclick="generateLink()">Upload</button>
 
-        <div id="file-url"></div>
-        <div class="error-message" id="file-message"></div>
-    </div>
+<div class="upload-container">
+    <h2>Upload File</h2>
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload</button>
 
-    <script>
-        function generateLink() {
-            const fileInput = document.getElementById('fileInput');
-            const fileUrlDiv = document.getElementById('file-url');
-            const fileMessageDiv = document.getElementById('file-message');
+    <div id="file-url"></div>
+</div>
 
-            const file = fileInput.files[0];
-            fileUrlDiv.innerHTML = '';
-            fileMessageDiv.innerHTML = '';
+<script>
+    function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const fileUrlDiv = document.getElementById('file-url');
 
-            if (!file) {
-                fileMessageDiv.innerHTML = "Pilih file terlebih dahulu!";
-                return;
-            }
-
-            const fileName = file.name; // Ambil nama file
-            const baseUrl = "https://projectrazka.sgp.dom.my.id/FOTOTOLINK.html/";
-            const fullUrl = baseUrl + encodeURIComponent(fileName);
-
-            // Tampilkan link
-            fileUrlDiv.innerHTML = `
-                <p>File berhasil diproses!</p>
-                <p>Link: <a href="${fullUrl}" target="_blank">${fullUrl}</a></p>
-            `;
+        const file = fileInput.files[0];
+        if (!file) {
+            fileUrlDiv.innerHTML = "<p style='color: red;'>Please select a file to upload!</p>";
+            return;
         }
-    </script>
+
+        const fileURL = URL.createObjectURL(file);
+        fileUrlDiv.innerHTML = `
+            <p>File uploaded successfully!</p>
+            <p>File URL: <a href="${fileURL}" target="_blank">${fileURL}</a></p>
+        `;
+    }
+</script>
+
 </body>
 </html>
